@@ -5,6 +5,18 @@ function App() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Generate one unique session ID per browser
+  const [sessionId] = useState(() => {
+    let id = localStorage.getItem("session_id");
+
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("session_id", id);
+    }
+
+    return id;
+  });
+
   const [chat, setChat] = useState([
     {
       sender: "AI",
@@ -38,15 +50,19 @@ function App() {
     setMessage("");
 
     try {
-      const response = await fetch("https://customer-support-ai-m33r.onrender.com/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: userMessage,
-        }),
-      });
+      const response = await fetch(
+        "http://127.0.0.1:8000/chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: userMessage,
+            session_id: sessionId,
+          }),
+        }
+      );
 
       const data = await response.json();
 

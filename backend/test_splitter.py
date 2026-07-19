@@ -1,14 +1,15 @@
-print("Test started")
-
-from rag.document_loader import load_document
 from rag.text_splitter import split_text
 
-text = load_document("RefundPolicy.md")
+text = """
+Artificial Intelligence is changing customer support.
+FAISS helps perform semantic search.
+Sentence Transformers convert text into embeddings.
+"""
 
 chunks = split_text(text)
 
-print("Total Chunks:", len(chunks))
+print("Number of Chunks:", len(chunks))
 
 for i, chunk in enumerate(chunks):
-    print(f"\n------ Chunk {i+1} ------")
+    print(f"\nChunk {i+1}")
     print(chunk)

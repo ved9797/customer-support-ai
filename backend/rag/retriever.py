@@ -1,30 +1,15 @@
-from rag.document_loader import load_document
-from rag.text_splitter import split_text
+from rag.vector_store import VectorStore
+
+vector_store = VectorStore()
 
 
-def retrieve_context(filename, question):
+def retrieve_context(question):
 
-    text = load_document(filename)
+    results = vector_store.search(question)
 
-    chunks = split_text(text)
+    context = "\n\n".join(
+        result["text"]
+        for result in results
+    )
 
-    question = question.lower()
-
-    best_chunk = ""
-
-    max_matches = 0
-
-    for chunk in chunks:
-
-        score = 0
-
-        for word in question.split():
-
-            if word in chunk.lower():
-                score += 1
-
-        if score > max_matches:
-            max_matches = score
-            best_chunk = chunk
-
-    return best_chunk
+    return context

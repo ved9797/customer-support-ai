@@ -1,6 +1,8 @@
-def detect_department(message):
+def detect_departments(message):
 
     message = message.lower()
+
+    departments = []
 
     # Billing
     if (
@@ -12,10 +14,10 @@ def detect_department(message):
         or "billing" in message
         or "charged" in message
     ):
-        return "Billing"
+        departments.append("Billing")
 
     # Technical
-    elif (
+    if (
         "password" in message
         or "login" in message
         or "error" in message
@@ -24,11 +26,13 @@ def detect_department(message):
         or "setup" in message
         or "update" in message
         or "charger" in message
+        or "overheat" in message
+        or "overheating" in message
     ):
-        return "Technical"
+        departments.append("Technical")
 
     # Product
-    elif (
+    if (
         "price" in message
         or "pricing" in message
         or "cost" in message
@@ -40,10 +44,10 @@ def detect_department(message):
         or "phone" in message
         or "smartphone" in message
     ):
-        return "Product"
+        departments.append("Product")
 
     # Complaint
-    elif (
+    if (
         "complaint" in message
         or "bad service" in message
         or "disappointed" in message
@@ -54,10 +58,10 @@ def detect_department(message):
         or "defective" in message
         or "delivery issue" in message
     ):
-        return "Complaint"
+        departments.append("Complaint")
 
     # FAQ
-    elif (
+    if (
         "support hours" in message
         or "working hours" in message
         or "customer support" in message
@@ -65,6 +69,9 @@ def detect_department(message):
         or "email" in message
         or "address" in message
     ):
-        return "FAQ"
+        departments.append("FAQ")
 
-    return "General"
+    if not departments:
+        departments.append("General")
+
+    return departments
