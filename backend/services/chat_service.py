@@ -16,11 +16,12 @@ from tickets.escalation import should_escalate
 from services.ai_service import generate_response
 
 
-def process_chat(request):
+def process_chat(request,current_user):
 
     add_message(
         "user",
         request.message,
+        current_user["user_id"],
         request.session_id
     )
 
@@ -52,6 +53,7 @@ Thank you for your patience.
         add_message(
             "assistant",
             ai_reply,
+            current_user["user_id"],
             request.session_id
         )
 
@@ -126,6 +128,7 @@ Rules:
     add_message(
         "assistant",
         ai_reply,
+        current_user["user_id"],
         request.session_id
     )
 

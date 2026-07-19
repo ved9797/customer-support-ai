@@ -57,11 +57,16 @@ def chat(
     request: ChatRequest,
     current_user=Depends(get_current_user)
 ):
-    return process_chat(request)
+    return process_chat(request, current_user)
+
 
 @app.get("/memory")
-def memory():
+def memory(
+    current_user=Depends(get_current_user)
+):
 
     return {
-        "chat_history": get_history()
+        "chat_history": get_history(
+            current_user["user_id"]
+        )
     }

@@ -2,10 +2,11 @@ from datetime import datetime
 from database.mongodb import chat_collection
 
 
-def add_message(role, message, session_id="default"):
+def add_message(role, message, user_id, session_id="default"):
 
     chat_collection.insert_one(
         {
+            "user_id":user_id,
             "session_id": session_id,
             "role": role,
             "message": message,
@@ -13,11 +14,13 @@ def add_message(role, message, session_id="default"):
         }
     )
 
-
-def get_history(session_id="default"):
+def get_history(user_id, session_id="default"):
 
     history = chat_collection.find(
-        {"session_id": session_id},
+        {
+            "user_id": user_id,
+            "session_id": session_id
+        },
         {"_id": 0}
     ).sort("timestamp", 1)
 
