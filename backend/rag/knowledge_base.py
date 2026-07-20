@@ -1,7 +1,7 @@
 from pathlib import Path
 
 KNOWLEDGE_BASE = (
-    Path(__file__).parent.parent.parent / "knowledge_base"
+    Path(__file__).parent.parent / "knowledge_base"
 )
 
 print("Knowledge base path:", KNOWLEDGE_BASE)
