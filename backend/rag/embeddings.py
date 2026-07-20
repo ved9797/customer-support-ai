@@ -1,11 +1,17 @@
 from sentence_transformers import SentenceTransformer
 
-# Load embedding model only once
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = None
+
+
+def get_model():
+    global model
+
+    if model is None:
+        print("Loading embedding model...")
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+
+    return model
 
 
 def get_embeddings(texts):
-    """
-    Convert a list of text chunks into embeddings.
-    """
-    return model.encode(texts)
+    return get_model().encode(texts)
