@@ -53,11 +53,8 @@ def about():
     }
 
 @app.post("/chat")
-def chat(
-    request: ChatRequest,
-    current_user=Depends(get_current_user)
-):
-    return process_chat(request, current_user)
+def chat(request: ChatRequest):
+    return process_chat(request, None)
 
 
 @app.get("/memory")

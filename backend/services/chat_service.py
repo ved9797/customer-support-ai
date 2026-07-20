@@ -16,14 +16,16 @@ from tickets.escalation import should_escalate
 from services.ai_service import generate_response
 
 
-def process_chat(request,current_user):
+def process_chat(request, current_user):
 
-    add_message(
-        "user",
-        request.message,
-        current_user["user_id"],
-        request.session_id
-    )
+    # Save user message only if user is logged in
+    if current_user:
+        add_message(
+            "user",
+            request.message,
+            current_user["user_id"],
+            request.session_id
+        )
 
     # ---------- Human Escalation ----------
 
@@ -50,12 +52,14 @@ Our support team will contact you as soon as possible.
 Thank you for your patience.
 """
 
-        add_message(
-            "assistant",
-            ai_reply,
-            current_user["user_id"],
-            request.session_id
-        )
+        # Save assistant reply only if user is logged in
+        if current_user:
+            add_message(
+                "assistant",
+                ai_reply,
+                current_user["user_id"],
+                request.session_id
+            )
 
         return {
             "departments": ["Human Support"],
@@ -125,12 +129,14 @@ Rules:
 
     ai_reply = generate_response(prompt)
 
-    add_message(
-        "assistant",
-        ai_reply,
-        current_user["user_id"],
-        request.session_id
-    )
+    # Save assistant reply only if user is logged in
+    if current_user:
+        add_message(
+            "assistant",
+            ai_reply,
+            current_user["user_id"],
+            request.session_id
+        )
 
     return {
         "departments": departments,
